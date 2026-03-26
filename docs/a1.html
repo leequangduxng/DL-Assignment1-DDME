@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DL Assignment 1</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="split-layout">
+        
+        <div class="left-panel">
+            
+            <h1 class="main-title">ASSIGNMENT&nbsp;&nbsp;&nbsp;1</h1>
+            <p class="team-name">Classification</p>
+            <a href="https://github.com/leequangduxng/DL-Assignment1-DDME.git" class="btn-github">
+                <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="github" class="github-icon">
+                GitHub Repository
+            </a>
+            <svg class="wave-mesh" viewBox="0 0 800 400" preserveAspectRatio="none">
+                <g stroke="rgba(26, 32, 44, 0.15)" fill="none" stroke-width="1.2">
+                    <path d="M-100,200 C150,350 400,50 900,250" />
+                    <path d="M-100,220 C150,370 400,70 900,270" />
+                    <path d="M-100,240 C150,390 400,90 900,290" />
+                    <path d="M-100,260 C150,410 400,110 900,310" />
+                    <path d="M100,0 Q150,200 100,500" />
+                    <path d="M200,0 Q250,200 200,500" />
+                    <path d="M300,0 Q350,200 300,500" />
+                    <path d="M400,0 Q450,200 400,500" />
+                    <path d="M500,0 Q550,200 500,500" />
+                </g>
+            </svg>
+        </div>
+
+        <div class="right-panel">
+            <div class="timeline">
+
+                <div class="timeline-item">
+                    <a href="">
+                        <div class="node"><div class="inner-dot"></div></div>
+                    </a>
+                    <div class="nav-label">
+                        <span class="bold">ASSIGNMENT&nbsp;&nbsp;&nbsp;2</span>
+                        <span class="light">In progress</span>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <a href="">
+                        <div class="node"><div class="inner-dot"></div></div>
+                    </a>
+                    <div class="nav-label">
+                        <span class="bold">ASSIGNMENT&nbsp;&nbsp;&nbsp;3</span>
+                        <span class="light">In progress</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <section class="project-section">
+        <div class="project-header_1">
+            <h2 class="title">
+                Sports Image Classification
+            </h2>
+            <div class="github-buttons">
+                <a href="https://colab.research.google.com/drive/1hzapPMADXfmuRn4ks-t0Mr3SV-gWPeyP" class="btn-github">
+                    <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/google-colab.png" alt="Colab" class="github-icon">
+                    Colab
+                </a>
+                <a href="https://www.kaggle.com/datasets/sheikhzaib/sports-image-image-classification" class="btn-github">
+                    <img src="https://cdn-icons-png.flaticon.com/512/716/716784.png" alt="dataset" class="github-icon">
+                    Dataset
+                </a>
+            </div>
+        </div>
+
+        <h2 class="section-title">
+            1. Exploratory Data Analysis
+        </h2>
+        
+        <h3>Dataset Overview</h3>
+        <div class="container">
+            <div class="content-section">
+                <div class="card">
+                    <p><strong>Sports Images Dataset</strong> contains image data from multiple sports categories. Each record includes an image and its corresponding category label.</p>
+                    <ul style="margin-left: 20px; color: var(--text-muted); margin-top: 10px;">
+                        <li>14,160 images</li>
+                        <li>22 category labels (<code>baseball</code>, <code>tennis</code>, <code>boxing</code>, ...)</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="image-section">
+                <img src="images/assignment1/img_size.png" alt="Sample Grid" class="image">
+            </div>
+        </div>
+
+        <h3>Sample Visualization</h3>
+        <img src="images/assignment1/sample_1.png" alt="Sample Grid" class="card-image">
+
+        <h3>Label Distribution</h3>
+        <img src="images/assignment1/label_1.png" alt="Sample Grid" class="card-image">
+
+        <h2 class="section-title">
+            2. Pipeline
+        </h2>
+
+        <div class="card">
+            <h3>Data Preprocessing</h3>
+            <p>Data augmentation: RandomResizedCrop, HorizontalFlip, ColorJitter</p>
+            <p>Split data into Train/Validation/Test (70/15/15)</p>
+            <p><strong>Pipeline:</strong></p>
+            <ul style="margin-left: 20px; color: var(--text-muted); margin-top: 10px;">
+                <li>Transformations</li>
+                <li>Convert image to Tensor</li>
+                <li>Normalize using ImageNet mean/std</li>
+                <li>Use WeightedRandomSampler for training loader</li>
+            </ul>
+            <h3>Modeling</h3>
+            <p>CNN Models: VGG16, ResNet34, EfficientNet</p>
+            <p>Transformer Models: Vision Transfomer, Swin Transformer (full fine-tuning)</p>
+            <h3>Training</h3>
+            <p>Loss: CrossEntropy with class weights</p>
+            <p>Optimizer: SGD / AdamW</p>
+            <p>Techniques: L2 regularization</p>
+            <h3>Evaluation</h3>
+            <p>Metric: Weighted F1-Score</p>
+        </div>
+
+        <h2 class="section-title">
+            3. Results
+        </h2>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th><strong>Rank</strong></th>
+                    <th><strong>Model</strong></th>
+                    <th><strong>Approach</strong></th>
+                    <th><strong>F1-Score</strong></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Swin Transformer</td>
+                    <td>Full fine-tuning</td>
+                    <th>0.9560</th>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Vision Transformer</td>
+                    <td>Full fine-tuning</td>
+                    <th>0.9553</th>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>EfficientNet</td>
+                    <td>Full fine-tuning</td>
+                    <td>0.8857</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>ResNet34</td>
+                    <td>Full fine-tuning</td>
+                    <td>0.8756</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>VGG16</td>
+                    <td>Full fine-tuning</td>
+                    <td>0.8577</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="section-title">
+            4. Analysis
+        </h2>
+
+        <h2><strong>Grad-CAM</strong></h2>
+        <img src="images/assignment1/gradcam.png" alt="Sample Grid" class="card-image">
+
+        <h2><strong>VGG16</strong></h2>
+        <div class="container">
+            <div class="content-section">
+                <div class="card">
+                    <p>Model shows significant errors in classes such as <code>kabaddi</code>, <code>shooting</code>, <code>hockey</code>, where accuracy is relatively low. It also frequently confuses visually similar pairs like <code>tennis–badminton</code>, <code>wrestling–boxing</code>, and <code>shooting–cricket</code>. These errors suggest difficulty in distinguishing fine-grained visual differences between similar sports.</p>
+                    <div class="container">
+                        <div class="image-section">
+                            <img src="images/assignment1/vgg16_1.png" alt="Sample Grid" class="card-image">
+                        </div>
+                        <div class="image-section">
+                            <img src="images/assignment1/vgg16_2.png" alt="Sample Grid" class="card-image">
+                        </div>
+                        <div class="image-section">
+                            <img src="images/assignment1/vgg16_3.png" alt="Sample Grid" class="card-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="image-section">
+                <img src="images/assignment1/cm_vgg16.png" alt="Sample Grid" class="card-image">
+            </div>
+        </div>
+
+        <h2><strong>ResNet34</strong></h2>
+        <div class="container">
+            <div class="content-section">
+                <div class="card">
+                    <p>Model still struggles with classes such as <code>kabaddi</code>, <code>shooting</code>, <code>hockey</code>, and <code>weight_lifting</code>, which show lower accuracy compared to others. There are also noticeable confusions between similar classes like <code>tennis–badminton</code>, <code>boxing–wwe</code>, and <code>cricket–football</code>, indicating difficulty in distinguishing fine-grained visual differences.</p>
+                    <div class="container">
+                        <div class="image-section">
+                            <img src="images/assignment1/resnet_1.png" alt="Sample Grid" class="card-image">
+                        </div>
+                        <div class="image-section">
+                            <img src="images/assignment1/resnet_2.png" alt="Sample Grid" class="card-image">
+                        </div>
+                        <div class="image-section">
+                            <img src="images/assignment1/resnet_3.png" alt="Sample Grid" class="card-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="image-section">
+                <img src="images/assignment1/cm_resnet34.png" alt="Sample Grid" class="card-image">
+            </div>
+        </div>
+
+        <h2><strong>EfficientNet</strong></h2>
+        <div class="container">
+            <div class="content-section">
+                <div class="card">
+                    <p>Model still performs poorly on <code>kabaddi</code>, <code>shooting</code>, <code>hockey</code>, and <code>weight_lifting</code>, which remain the weakest classes. Confusions between similar classes such as <code>tennis–badminton</code> and <code>boxing–wwe</code> are still present, though slightly reduced compared to before.</p>
+                    <div class="container">
+                        <div class="image-section">
+                            <img src="images/assignment1/effinet_1.png" alt="Sample Grid" class="card-image">
+                        </div>
+                        <div class="image-section">
+                            <img src="images/assignment1/effinet_2.png" alt="Sample Grid" class="card-image">
+                        </div>
+                        <div class="image-section">
+                            <img src="images/assignment1/effinet_3.png" alt="Sample Grid" class="card-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="image-section">
+                <img src="images/assignment1/cm_efnet.png" alt="Sample Grid" class="card-image">
+            </div>
+        </div>
+
+        <h2><strong>Vision Transformer</strong></h2>
+        <div class="container">
+            <div class="content-section">
+                <div class="card">
+                    <p>There is a clear improvement: <code>kabaddi</code> increases significantly, while <code>shooting</code>, <code>hockey</code>, and <code>weight_lifting</code> also show noticeable gains. Confusions between similar classes such as <code>tennis–badminton</code> and <code>boxing–wwe</code> are greatly reduced. The confusion matrix is now much cleaner along the diagonal, indicating a more stable and reliable model.</p>
+                    <div class="container">
+                        <div class="image-section">
+                            <img src="images/assignment1/vit_1.png" alt="Sample Grid" class="card-image">
+                        </div>
+                        <div class="image-section">
+                            <img src="images/assignment1/vit_2.png" alt="Sample Grid" class="card-image">
+                        </div>
+                        <div class="image-section">
+                            <img src="images/assignment1/vit_3.png" alt="Sample Grid" class="card-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="image-section">
+                <img src="images/assignment1/cm_vit.png" alt="Sample Grid" class="card-image">
+            </div>
+        </div>
+
+        <h2><strong>Swin Transformer</strong></h2>
+        <div class="container">
+            <div class="content-section">
+                <div class="card">
+                    <p>There is further improvement across difficult classes: <code>kabaddi</code>, <code>shooting</code>, <code>hockey</code>, and <code>weight_lifting</code> all continue to increase. Confusions between similar classes are now minimal, and the matrix is even cleaner along the diagonal. This indicates the model has become more accurate and consistently stable across all categories.</p>
+                    <div class="container">
+                        <div class="image-section">
+                            <img src="images/assignment1/swin_1.png" alt="Sample Grid" class="card-image">
+                        </div>
+                        <div class="image-section">
+                            <img src="images/assignment1/swin_2.png" alt="Sample Grid" class="card-image">
+                        </div>
+                        <div class="image-section">
+                            <img src="images/assignment1/swin_3.png" alt="Sample Grid" class="card-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="image-section">
+                <img src="images/assignment1/cm_st.png" alt="Sample Grid" class="card-image">
+            </div>
+        </div>
+
+        <h2 class="section-title">
+            5. Conclusion
+        </h2>
+        <div class="card">
+            <ul style="margin-left: 20px; color: var(--text-muted); margin-top: 10px;">
+                <li>Transformer-based models achieve better performance on the dataset, while CNNs struggle more with complex and diverse visual patterns.</li>
+                <li>The dataset contains several visually similar classes (e.g., <code>tennis–badminton</code>, <code>boxing–wwe</code>, <code>formula1–motogp</code>), making them harder to distinguish.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="project-section">
+       <div class="project-header_2">
+            <h2 class="title">
+                Patent Classification
+            </h2>
+            <div class="github-buttons">
+                <a href="https://colab.research.google.com/drive/1LGEKMeqyzdfrnSuJcFeAKsO4xHTnM9hT?usp=sharing" class="btn-github">
+                    <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/google-colab.png" alt="Colab" class="github-icon">
+                    Colab
+                </a>
+                <a href="https://huggingface.co/datasets/MAdAiLab/patent_classification" class="btn-github">
+                    <img src="https://cdn-icons-png.flaticon.com/512/716/716784.png" alt="dataset" class="github-icon">
+                    Dataset
+                </a>
+            </div>
+        </div>
+        
+        <h2 class="section-title">
+            1. Exploratory Data Analysis
+        </h2>
+        
+        <h3>Dataset Overview</h3>
+        <div class="card">
+            <p><strong>Patent classification</strong> is a text dataset used for a multi-class classification task. Each sample includes: a patent description and a corresponding label.</p>
+            <ul style="margin-left: 20px; color: var(--text-muted); margin-top: 10px;">
+                <li>35,000 samples</li>
+                <li>9 category labels (<code>Physics</code>, <code>Electricity</code>, <code>Human Neccessities</code>, ...)</li>
+            </ul>
+        </div>
+
+        <h3>Label Distribution</h3>
+        <img src="images/assignment1/label_2.png" alt="Sample Grid" class="card-image">
+
+        <h3>Text Analysis</h3>
+        <div class="container">
+            <div class="image-section">
+                <img src="images/assignment1/text_length.jpg" alt="Sample Grid" class="card-image">
+            </div>
+            <div class="image-section">
+                <img src="images/assignment1/word_per_doc.jpg" alt="Sample Grid" class="card-image">
+            </div>
+        </div>
+        <div class="container">
+            <div class="image-section">
+                <img src="images/assignment1/top_unigram.jpg" alt="Sample Grid" class="card-image">
+            </div>
+            <div class="image-section">
+                <img src="images/assignment1/wordcloud.jpg" alt="Sample Grid" class="card-image">
+            </div>
+        </div>
+
+        <h2 class="section-title">
+            2. Pipeline
+        </h2>
+
+        <div class="card">
+            <h3>Data Preprocessing</h3>
+            <p>Data augmentation</p>
+            <p>Split data into Train/Validation/Test (70/15/15)</p>
+            <p><strong>RNN Pipeline:</strong></p>
+            <ul style="margin-left: 20px; color: var(--text-muted); margin-top: 10px;">
+                <li>Lowercasing, remove URLs/emails</li>
+                <li>Remove special characters</li>
+                <li>Word-level tokenization</li>
+                <li>Remove stopwords, apply lemmatization</li>
+                <li>Encode text + padding</li>
+            </ul>
+            <p><strong>Transformer Pipeline:</strong></p>
+            <ul style="margin-left: 20px; color: var(--text-muted); margin-top: 10px;">
+                <li>Normalize text, remove URLs/emails</li>
+                <li>Tokenization: Use pretrained tokenizer</li>
+                <li>Encoding: input_ids, attention_mask</li>
+            </ul>
+            <h3>Modeling</h3>
+            <p>RNN Models: LSTM / GRU, BiLSTM / BiGRU, BiLSTM + Attention</p>
+            <p>Transformer Models: BERT, RoBERTa (freeze backbone, full fine-tuning, layer-wise learning rate)</p>
+            <h3>Training</h3>
+            <p>Loss: CrossEntropy with class weights</p>
+            <p>Optimizer: AdamW</p>
+            <p>Techniques: Early stopping, Gradient clipping (RNN)</p>
+            <h3>Evaluation</h3>
+            <p>Metric: Weighted F1-Score</p>
+        </div>
+
+        <h2 class="section-title">
+            3. Results
+        </h2>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th><strong>Rank</strong></th>
+                    <th><strong>Model</strong></th>
+                    <th><strong>Approach</strong></th>
+                    <th><strong>F1-Score</strong></th>
+                    <th><strong>Training time</strong></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>BERT + MLP</td>
+                    <td>Full fine-tuning</td>
+                    <th>0.6320</th>
+                    <th>1370</th>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>RoBERTa + MLP</td>
+                    <td>Layerwise lr</td>
+                    <th>0.6269</th>
+                    <th>1411</th>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>BERT + BiLSTM</td>
+                    <td>Full fine-tuning</td>
+                    <td>0.8857</td>
+                    <th>1520</th>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>DistilBERT + MLP</td>
+                    <td>Full fine-tuning</td>
+                    <td>0.6115</td>
+                    <th>732</th>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>DistilBERT + BiGRU</td>
+                    <td>Full fine-tuning</td>
+                    <td>0.5965</td>
+                    <th>855</th>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>BERT + MLP</td>
+                    <td>Partial fine-tuning</td>
+                    <td>0.5793</td>
+                    <th>722</th>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>DistilBERT + MLP</td>
+                    <td>Frozen</td>
+                    <td>0.4871</td>
+                    <th>340</th>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>GRU</td>
+                    <td>RNN</td>
+                    <td>0.4560</td>
+                    <th>71</th>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>fastText + BiGRU</td>
+                    <td>RNN</td>
+                    <td>0.4560</td>
+                    <th>101</th>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>fastText + BiLSTM</td>
+                    <td>RNN</td>
+                    <td>0.4301</td>
+                    <th>111</th>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>LSTM</td>
+                    <td>RNN</td>
+                    <td>0.4215</td>
+                    <th>81</th>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="section-title">
+            4. Analysis
+        </h2>
+
+        <div class="container">
+            <div class="image-section">
+                <img src="images/assignment1/attn_1.jpg" alt="Sample Grid" class="card-image">
+            </div>
+            <div class="image-section">
+                <img src="images/assignment1/attn_2.jpg" alt="Sample Grid" class="card-image">
+            </div>
+        </div>
+
+        <div class="card">
+            <p>The two figures show the difference in how Transformer and RNN identify important words when predicting the Physics label. In the Transformer model, several keywords such as sensitive, compounds, radiation, and halo have very high saliency values, indicating that the model focuses strongly on a few core scientific terms to make its prediction. In contrast, the RNN model distributes attention more evenly across multiple words such as copying, imaging, halomethyl, systems, and molecule. This suggests that the RNN relies on a broader contextual range within the text, while the Transformer tends to depend more on prominent keywords for classification. Overall, both models capture terminology related to physics and chemistry, but they differ in how they allocate importance to the words.</p>
+        </div>
+
+        <h2 class="section-title">
+            5. Conclusion
+        </h2>
+
+        <div class="card">
+            <ul style="margin-left: 20px; color: var(--text-muted); margin-top: 10px;">
+                <li>Transformer-based models outperform traditional RNN-based approaches in capturing contextual information.</li>
+                <li>Full fine-tuning achieves better performance than partial fine-tuning or frozen settings.</li>
+            </ul>
+        </div>
+    </section>
+</body>
+</html>
