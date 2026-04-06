@@ -8,6 +8,14 @@
 </head>
 <body>
 
+    <header>
+        <nav>
+            <a href="#img">Image</a>
+            <a href="#text">Text</a>
+            <a href="#multimodal">Multimodal</a>
+        </nav>
+    </header>
+
     <div class="split-layout">
         
         <div class="left-panel">
@@ -61,7 +69,7 @@
 
     </div>
 
-    <section class="project-section">
+    <section id="img" class="project-section">
         <div class="project-header_1">
             <h2 class="title">
                 Sports Image Classification
@@ -83,53 +91,85 @@
         </h2>
         
         <h3>Dataset Overview</h3>
+        <div class="card">
+            <p><strong>Sports Images Dataset</strong> contains image data from multiple sports categories. Each record includes an image and its corresponding category label.</p>
+            <ul style="margin-left: 20px; color: var(--text-muted); margin-top: 10px;">
+                <li>14,160 images</li>
+                <li>22 category labels (<code>baseball</code>, <code>tennis</code>, <code>boxing</code>, ...)</li>
+            </ul>
+        </div>
         <div class="container">
-            <div class="content-section">
-                <div class="card">
-                    <p><strong>Sports Images Dataset</strong> contains image data from multiple sports categories. Each record includes an image and its corresponding category label.</p>
-                    <ul style="margin-left: 20px; color: var(--text-muted); margin-top: 10px;">
-                        <li>14,160 images</li>
-                        <li>22 category labels (<code>baseball</code>, <code>tennis</code>, <code>boxing</code>, ...)</li>
-                    </ul>
-                </div>
+            <div class="image-section1">
+                <img src="images/assignment1/image/label.png" alt="Sample Grid" class="image">
             </div>
-            <div class="image-section">
-                <img src="images/assignment1/img_size.png" alt="Sample Grid" class="image">
+            <div class="image-section2">
+                <img src="images/assignment1/image/img_size.png" alt="Sample Grid" class="image">
             </div>
         </div>
 
         <h3>Sample Visualization</h3>
-        <img src="images/assignment1/sample_1.png" alt="Sample Grid" class="card-image">
+        <img src="images/assignment1/image/sample.png" alt="Sample Grid" class="card-image">
 
-        <h3>Label Distribution</h3>
-        <img src="images/assignment1/label_1.png" alt="Sample Grid" class="card-image">
+        <h3>Data Split</h3>
+        <div class="container">
+            <div class="image-section1">
+                <img src="images/assignment1/image/train.png" alt="Sample Grid" class="image">
+            </div>
+            <div class="image-section1">
+                <img src="images/assignment1/image/val.png" alt="Sample Grid" class="image">
+            </div>
+            <div class="image-section1">
+                <img src="images/assignment1/image/test.png" alt="Sample Grid" class="image">
+            </div>
+        </div>
 
         <h2 class="section-title">
             2. Pipeline
         </h2>
 
         <div class="card">
-            <h3>Data Preprocessing</h3>
-            <p>Data augmentation: RandomResizedCrop, HorizontalFlip, ColorJitter</p>
-            <p>Split data into Train/Validation/Test (70/15/15)</p>
-            <p><strong>Pipeline:</strong></p>
+            <h3>1. Data Preprocessing & Augmentation</h3>
+            <p><strong>RandAugment:</strong> Apply random transformations (e.g., Rotation, Color Jitter, Shear, Scaling).</p>
+            <p><strong>No Augment:</strong> No data augmentation applied.</p>
+            <p><strong>Data Split:</strong></p>
             <ul style="margin-left: 20px; color: var(--text-muted); margin-top: 10px;">
-                <li>Transformations</li>
-                <li>Convert image to Tensor</li>
-                <li>Normalize using ImageNet mean/std</li>
-                <li>Use WeightedRandomSampler for training loader</li>
+                <li>Train: 70%</li>
+                <li>Validation: 15%</li>
+                <li>Test: 15%</li>
             </ul>
-            <h3>Modeling</h3>
-            <p>CNN Models: VGG16, ResNet34, EfficientNet</p>
-            <p>Transformer Models: Vision Transfomer, Swin Transformer (full fine-tuning)</p>
-            <h3>Training</h3>
-            <p>Loss: CrossEntropy with class weights</p>
-            <p>Optimizer: SGD / AdamW</p>
-            <p>Techniques: L2 regularization</p>
-            <h3>Evaluation</h3>
-            <p>Metric: Weighted F1-Score</p>
+            <p><strong>Transformation:</strong></p>
+            <ul style="margin-left: 20px; color: var(--text-muted); margin-top: 10px;">
+                <li>Convert images to Tensor.</li>
+                <li>Normalize using ImageNet mean/std.</li>
+            </ul>
+            <p><strong>Weighted Random Sampler:</strong> Handle class imbalance by assigning higher weights to underrepresented classes</p>
         </div>
-
+        <div class="card">
+            <h3>2. Model</h3>
+            <p><strong>CNN Model:</strong> ResNet50</p>
+            <img src="images/assignment1/image/resnet50.png" alt="Sample Grid" class="card-image2">
+            <p><strong>Transformer Model:</strong> Vision Transfomer</p>
+            <img src="images/assignment1/image/vit.png" alt="Sample Grid" class="card-image2">
+            <p><strong>MobileNet:</strong></p>
+            <img src="images/assignment1/image/mobilenet.png" alt="Sample Grid" class="card-image2">
+        </div>
+        <div class="card">
+            <h3>3. Fine-Tuning Strategies</h3>
+            <p><strong>Freeze Backbone:</strong> Freeze backbone layers, train only classifier.</p>
+            <p><strong>Full Fine-Tuning:</strong> Update all layers (backbone + classifier).</p>
+        </div>
+        <div class="card">
+            <h3>4. Training Setup</h3>
+            <p><strong>Loss Function:</strong> CrossEntropyLoss</p>
+            <p><strong>Optimizer:</strong> Adam</p>
+            <p><strong>Learning Rate Scheduler: </strong> CosineAnnealingLR</p>
+            <p><strong>Regularization:</strong> L2 Regularization</p>
+        </div>
+        <div class="card">
+            <h3>5. Evaluation</h3>
+            <p><strong>Metric:</strong> Weighted F1-Score (for class imbalance)</p>
+            <p><strong>Confusion Matrix:</strong> Analyze model performance per class</p>
+        </div>
         <h2 class="section-title">
             3. Results
         </h2>
@@ -137,165 +177,348 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th><strong>Rank</strong></th>
                     <th><strong>Model</strong></th>
-                    <th><strong>Approach</strong></th>
-                    <th><strong>F1-Score</strong></th>
+                    <th><strong>Augment</strong></th>
+                    <th><strong>Train</strong></th>
+                    <th><strong>#params(M)</strong></th>
+                    <th><strong>FLOPS(G)</strong></th>
+                    <th><strong>Acc(%)</strong><span class="up-arrow">&#9650;</span></th>
+                    <th><strong>Prec(%)</strong><span class="up-arrow">&#9650;</span></th>
+                    <th><strong>Rec(%)</strong><span class="up-arrow">&#9650;</span></th>
+                    <th><strong>F1(%)</strong><span class="up-arrow">&#9650;</span></th>
+                    <th><strong>Inference time(s)</strong><span class="down-arrow">&#9660;</span></th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>1</td>
-                    <td>Swin Transformer</td>
+                    <td>ViT-B/16</td>
+                    <td>RandAugment</td>
                     <td>Full fine-tuning</td>
-                    <th>0.9560</th>
+                    <th>85.63</th>
+                    <th>33.70</th>
+                    <th class="highest">95.43</th>
+                    <th class="highest">95.50</th>
+                    <th class="highest">95.43</th>
+                    <th class="highest">95.44</th>
+                    <th>47.48</th>
                 </tr>
                 <tr>
-                    <td>2</td>
-                    <td>Vision Transformer</td>
+                    <td>ViT-B/16</td>
+                    <td>None</td>
                     <td>Full fine-tuning</td>
-                    <th>0.9553</th>
+                    <th>85.63</th>
+                    <th>33.70</th>
+                    <th>94.30</th>
+                    <th>94.42</th>
+                    <th>94.30</th>
+                    <th>94.31</th>
+                    <th>47.88</th>
                 </tr>
                 <tr>
-                    <td>3</td>
-                    <td>EfficientNet</td>
+                    <td>ResNet50</td>
+                    <td>RandAugment</td>
                     <td>Full fine-tuning</td>
-                    <td>0.8857</td>
+                    <th>23.55</th>
+                    <th>8.26</th>
+                    <th>93.31</th>
+                    <th>93.36</th>
+                    <th>93.31</th>
+                    <th>93.29</th>
+                    <th>28.65</th>
                 </tr>
                 <tr>
-                    <td>4</td>
-                    <td>ResNet34</td>
+                    <td>ResNet50</td>
+                    <td>None</td>
                     <td>Full fine-tuning</td>
-                    <td>0.8756</td>
+                    <th>23.55</th>
+                    <th>8.26</th>
+                    <th>93.17</th>
+                    <th>93.24</th>
+                    <th>93.17</th>
+                    <th>93.18</th>
+                    <th>26.06</th>
                 </tr>
                 <tr>
-                    <td>5</td>
-                    <td>VGG16</td>
+                    <td>MobileNetV3-Large</td>
+                    <td>RandAugment</td>
                     <td>Full fine-tuning</td>
-                    <td>0.8577</td>
+                    <th>4.18</th>
+                    <th>0.43</th>
+                    <th>92.18</th>
+                    <th>92.26</th>
+                    <th>92.18</th>
+                    <th>92.17</th>
+                    <th>19.13</th>
+                </tr>
+                <tr>
+                    <td>MobileNetV3-Large</td>
+                    <td>None</td>
+                    <td>Full fine-tuning</td>
+                    <th>4.18</th>
+                    <th>0.43</th>
+                    <th>90.21</th>
+                    <th>90.26</th>
+                    <th>90.21</th>
+                    <th>90.18</th>
+                    <th class="highest">17.26</th>
+                </tr>
+                <tr>
+                    <td>ViT-B/16</td>
+                    <td>RandAugment</td>
+                    <td>Freeze backbone</td>
+                    <th>85.63</th>
+                    <th>33.70</th>
+                    <th>89.31</th>
+                    <th>89.45</th>
+                    <th>89.31</th>
+                    <th>89.27</th>
+                    <th>45.12</th>
+                </tr>
+                <tr>
+                    <td>ViT-B/16</td>
+                    <td>None</td>
+                    <td>Freeze backbone</td>
+                    <th>85.63</th>
+                    <th>33.70</th>
+                    <th>89.22</th>
+                    <th>89.46</th>
+                    <th>89.22</th>
+                    <th>89.23</th>
+                    <th>41.67</th>
+                </tr>
+                <tr>
+                    <td>MobileNetV3-Large</td>
+                    <td>RandAugment</td>
+                    <td>Freeze backbone</td>
+                    <th>4.18</th>
+                    <th>0.43</th>
+                    <th>79.99</th>
+                    <th>80.07</th>
+                    <th>79.99</th>
+                    <th>79.95</th>
+                    <th>20.81</th>
+                </tr>
+                <tr>
+                    <td>ResNet50</td>
+                    <td>RandAugment</td>
+                    <td>Freeze backbone</td>
+                    <th>23.55</th>
+                    <th>8.26</th>
+                    <th>79.47</th>
+                    <th>79.79</th>
+                    <th>79.47</th>
+                    <th>79.31</th>
+                    <th>19.49</th>
+                </tr>
+                <tr>
+                    <td>ResNet50</td>
+                    <td>None</td>
+                    <td>Freeze backbone</td>
+                    <th>23.55</th>
+                    <th>8.26</th>
+                    <th>78.72</th>
+                    <th>79.22</th>
+                    <th>78.72</th>
+                    <th>78.54</th>
+                    <th>21.83</th>
+                </tr>
+                <tr>
+                    <td>MobileNetV3-Large</td>
+                    <td>None</td>
+                    <td>Freeze backbone</td>
+                    <th>4.18</th>
+                    <th>0.43</th>
+                    <th>78.58</th>
+                    <th>78.81</th>
+                    <th>78.58</th>
+                    <th>78.58</th>
+                    <th>18.49</th>
                 </tr>
             </tbody>
         </table>
 
+        <img src="images/assignment1/image/inference_time.png" alt="Sample Grid" class="card-image3">
+
+        <h2><strong>ViT</strong></h2>
+        <div class="container">
+            <div class="image-section1">
+                <figure>
+                    <img src="images/assignment1/image/cm_vit-ra-ff.png" alt="Sample Grid" class="image">
+                    <figcaption>ViT_RandAugment_Fine-Tuning</figcaption>
+                </figure>
+            </div>
+            <div class="image-section1">
+                <figure>
+                    <img src="images/assignment1/image/cm_vit-na-ff.png" alt="Sample Grid" class="image">
+                    <figcaption>ViT_NoAugment_Fine-Tuning</figcaption>
+                </figure>
+            </div>
+            <div class="image-section1">
+                <figure>
+                    <img src="images/assignment1/image/cm_vit-ra-fb.png" alt="Sample Grid" class="image">
+                    <figcaption>ViT_RandAugment_Freeze</figcaption>
+                </figure>
+            </div>
+            <div class="image-section1">
+                <figure>
+                    <img src="images/assignment1/image/cm_vit-na-fb.png" alt="Sample Grid" class="image">
+                    <figcaption>ViT_NoAugment_Freeze</figcaption>
+                </figure>
+            </div>
+        </div>
+
+        <h2><strong>ResNet50</strong></h2>
+        <div class="container">
+            <div class="image-section1">
+                <figure>
+                    <img src="images/assignment1/image/cm_resnet-ra-ff.png" alt="Sample Grid" class="image">
+                    <figcaption>ResNet50_RandAugment_Fine-Tuning</figcaption>
+                </figure>
+            </div>
+            <div class="image-section1">
+                <figure>
+                    <img src="images/assignment1/image/cm_resnet-na-ff.png" alt="Sample Grid" class="image">
+                    <figcaption>ResNet50_NoAugment_Fine-Tuning</figcaption>
+                </figure>
+            </div>
+            <div class="image-section1">
+                <figure>
+                    <img src="images/assignment1/image/cm_resnet-ra-fb.png" alt="Sample Grid" class="image">
+                    <figcaption>ResNet50_RandAugment_Freeze</figcaption>
+                </figure>
+            </div>
+            <div class="image-section1">
+                <figure>
+                    <img src="images/assignment1/image/cm_resnet-na-fb.png" alt="Sample Grid" class="image">
+                    <figcaption>ResNet50_NoAugment_Freeze</figcaption>
+                </figure>
+            </div>
+        </div>
+
+        <h2><strong>MobileNet</strong></h2>
+        <div class="container">
+            <div class="image-section1">
+                <figure>
+                    <img src="images/assignment1/image/cm_mobile-ra-ff.png" alt="Sample Grid" class="image">
+                    <figcaption>MobileNet_RandAugment_Fine-Tuning</figcaption>
+                </figure>
+            </div>
+            <div class="image-section1">
+                <figure>
+                    <img src="images/assignment1/image/cm_mobile-na-ff.png" alt="Sample Grid" class="image">
+                    <figcaption>MobileNet_NoAugment_Fine-Tuning</figcaption>
+                </figure>
+            </div>
+            <div class="image-section1">
+                <figure>
+                    <img src="images/assignment1/image/cm_mobile-ra-fb.png" alt="Sample Grid" class="image">
+                    <figcaption>MobileNet_RandAugment_Freeze</figcaption>
+                </figure>
+            </div>
+            <div class="image-section1">
+                <figure>
+                    <img src="images/assignment1/image/cm_mobile-na-fb.png" alt="Sample Grid" class="image">
+                    <figcaption>MobileNet_NoAugment_Freeze</figcaption>
+                </figure>
+            </div>
+        </div>
+
         <h2 class="section-title">
             4. Analysis
         </h2>
+        <img src="images/assignment1/image/grad-cam.png" alt="Sample Grid" class="card-image">
 
-        <h2><strong>Grad-CAM</strong></h2>
-        <img src="images/assignment1/gradcam.png" alt="Sample Grid" class="card-image">
-
-        <h2><strong>VGG16</strong></h2>
+        <h2><strong>MobileNet</strong></h2>
         <div class="container">
             <div class="content-section">
                 <div class="card">
-                    <p>Model shows significant errors in classes such as <code>kabaddi</code>, <code>shooting</code>, <code>hockey</code>, where accuracy is relatively low. It also frequently confuses visually similar pairs like <code>tennis–badminton</code>, <code>wrestling–boxing</code>, and <code>shooting–cricket</code>. These errors suggest difficulty in distinguishing fine-grained visual differences between similar sports.</p>
-                    <div class="container">
-                        <div class="image-section">
-                            <img src="images/assignment1/vgg16_1.png" alt="Sample Grid" class="card-image">
-                        </div>
-                        <div class="image-section">
-                            <img src="images/assignment1/vgg16_2.png" alt="Sample Grid" class="card-image">
-                        </div>
-                        <div class="image-section">
-                            <img src="images/assignment1/vgg16_3.png" alt="Sample Grid" class="card-image">
-                        </div>
-                    </div>
+                    <p>The model struggles with classes:</p>
+                    <ul style="margin-left: 20px; color: var(--text-muted); margin-top: 10px;">
+                        <li><code>hockey</code> and <code>football</code></li>
+                        <li><code>hockey</code> and <code>ice hockey</code></li>
+                        <li><code>motogp</code> and <code>formula1</code></li>
+                        <li><code>badminton</code> and <code>tennis</code></li>
+                    </ul>
+                    <img src="images/assignment1/image/mobile-img.png" alt="Sample Grid" class="card-image4">
                 </div>
             </div>
-            <div class="image-section">
-                <img src="images/assignment1/cm_vgg16.png" alt="Sample Grid" class="card-image">
+            <div class="image-section1">
+                <img src="images/assignment1/image/cm_mobile-ra-ff.png" alt="Sample Grid" class="card-image">
+            </div>
+        </div>
+        <div class="container">
+            <div class="content-section">
+                <div class="card">
+                    <ul style="margin-left: 20px; color: var(--text-muted); margin-top: 10px;">
+                        <li>Model demonstrates moderate calibration, with an ECE of <strong>0.0360</strong> indicating a noticeable gap between predicted confidence and actual accuracy.</li>
+                        <li>The reliability diagram shows a clear tendency toward overconfidence, as the curve lies predominantly below the diagonal line across most confidence levels, particularly in the high-confidence regions (> 0.5)</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="image-section1">
+                <img src="images/assignment1/image/mobile-reliability.png" alt="Sample Grid" class="card-image">
             </div>
         </div>
 
-        <h2><strong>ResNet34</strong></h2>
+        <h2><strong>ResNet50</strong></h2>
         <div class="container">
             <div class="content-section">
                 <div class="card">
-                    <p>Model still struggles with classes such as <code>kabaddi</code>, <code>shooting</code>, <code>hockey</code>, and <code>weight_lifting</code>, which show lower accuracy compared to others. There are also noticeable confusions between similar classes like <code>tennis–badminton</code>, <code>boxing–wwe</code>, and <code>cricket–football</code>, indicating difficulty in distinguishing fine-grained visual differences.</p>
-                    <div class="container">
-                        <div class="image-section">
-                            <img src="images/assignment1/resnet_1.png" alt="Sample Grid" class="card-image">
-                        </div>
-                        <div class="image-section">
-                            <img src="images/assignment1/resnet_2.png" alt="Sample Grid" class="card-image">
-                        </div>
-                        <div class="image-section">
-                            <img src="images/assignment1/resnet_3.png" alt="Sample Grid" class="card-image">
-                        </div>
-                    </div>
+                    <p>The model struggles with classes:</p>
+                    <ul style="margin-left: 20px; color: var(--text-muted); margin-top: 10px;">
+                        <li><code>tennis</code> and <code>badminton</code></li>
+                        <li><code>hockey</code> and <code>football</code></li>
+                        <li><code>boxing</code> and <code>wwe</code></li>
+                    </ul>
+                    <img src="images/assignment1/image/resnet-img.png" alt="Sample Grid" class="card-image4">
                 </div>
             </div>
-            <div class="image-section">
-                <img src="images/assignment1/cm_resnet34.png" alt="Sample Grid" class="card-image">
+            <div class="image-section1">
+                <img src="images/assignment1/image/cm_resnet-ra-ff.png" alt="Sample Grid" class="card-image">
+            </div>
+        </div>
+        <div class="container">
+            <div class="content-section">
+                <div class="card">
+                    <ul style="margin-left: 20px; color: var(--text-muted); margin-top: 10px;">
+                        <li>Model demonstrates good calibration, with a low ECE of <strong>0.0154</strong> indicating that predicted confidence closely matches actual accuracy.</li>
+                        <li>The reliability diagram shows a slight tendency toward overconfidence, as the curve lies mostly below the diagonal in several intervals</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="image-section1">
+                <img src="images/assignment1/image/resnet-reliability.png" alt="Sample Grid" class="card-image">
             </div>
         </div>
 
-        <h2><strong>EfficientNet</strong></h2>
+        <h2><strong>ViT</strong></h2>
         <div class="container">
             <div class="content-section">
                 <div class="card">
-                    <p>Model still performs poorly on <code>kabaddi</code>, <code>shooting</code>, <code>hockey</code>, and <code>weight_lifting</code>, which remain the weakest classes. Confusions between similar classes such as <code>tennis–badminton</code> and <code>boxing–wwe</code> are still present, though slightly reduced compared to before.</p>
-                    <div class="container">
-                        <div class="image-section">
-                            <img src="images/assignment1/effinet_1.png" alt="Sample Grid" class="card-image">
-                        </div>
-                        <div class="image-section">
-                            <img src="images/assignment1/effinet_2.png" alt="Sample Grid" class="card-image">
-                        </div>
-                        <div class="image-section">
-                            <img src="images/assignment1/effinet_3.png" alt="Sample Grid" class="card-image">
-                        </div>
-                    </div>
+                    <p>The model struggles with classes:</p>
+                    <ul style="margin-left: 20px; color: var(--text-muted); margin-top: 10px;">
+                        <li><code>motogp</code> and <code>formula1</code></li>
+                        <li><code>hockey</code> and <code>football</code></li>
+                        <li><code>tennis</code> and <code>badminton</code></li>
+                    </ul>
+                    <img src="images/assignment1/image/vit-img.png" alt="Sample Grid" class="card-image4">
                 </div>
             </div>
-            <div class="image-section">
-                <img src="images/assignment1/cm_efnet.png" alt="Sample Grid" class="card-image">
+            <div class="image-section1">
+                <img src="images/assignment1/image/cm_resnet-ra-ff.png" alt="Sample Grid" class="card-image">
             </div>
         </div>
-
-        <h2><strong>Vision Transformer</strong></h2>
         <div class="container">
             <div class="content-section">
                 <div class="card">
-                    <p>There is a clear improvement: <code>kabaddi</code> increases significantly, while <code>shooting</code>, <code>hockey</code>, and <code>weight_lifting</code> also show noticeable gains. Confusions between similar classes such as <code>tennis–badminton</code> and <code>boxing–wwe</code> are greatly reduced. The confusion matrix is now much cleaner along the diagonal, indicating a more stable and reliable model.</p>
-                    <div class="container">
-                        <div class="image-section">
-                            <img src="images/assignment1/vit_1.png" alt="Sample Grid" class="card-image">
-                        </div>
-                        <div class="image-section">
-                            <img src="images/assignment1/vit_2.png" alt="Sample Grid" class="card-image">
-                        </div>
-                        <div class="image-section">
-                            <img src="images/assignment1/vit_3.png" alt="Sample Grid" class="card-image">
-                        </div>
-                    </div>
+                    <ul style="margin-left: 20px; color: var(--text-muted); margin-top: 10px;">
+                        <li>Model demonstrates good calibration, with a low ECE of <strong>0.0148</strong> indicating that predicted confidence closely matches actual accuracy.</li>
+                        <li>The reliability diagram shows a slight tendency toward underconfidence, as the curve lies above the diagonal.</li>
+                    </ul>
                 </div>
             </div>
-            <div class="image-section">
-                <img src="images/assignment1/cm_vit.png" alt="Sample Grid" class="card-image">
-            </div>
-        </div>
-
-        <h2><strong>Swin Transformer</strong></h2>
-        <div class="container">
-            <div class="content-section">
-                <div class="card">
-                    <p>There is further improvement across difficult classes: <code>kabaddi</code>, <code>shooting</code>, <code>hockey</code>, and <code>weight_lifting</code> all continue to increase. Confusions between similar classes are now minimal, and the matrix is even cleaner along the diagonal. This indicates the model has become more accurate and consistently stable across all categories.</p>
-                    <div class="container">
-                        <div class="image-section">
-                            <img src="images/assignment1/swin_1.png" alt="Sample Grid" class="card-image">
-                        </div>
-                        <div class="image-section">
-                            <img src="images/assignment1/swin_2.png" alt="Sample Grid" class="card-image">
-                        </div>
-                        <div class="image-section">
-                            <img src="images/assignment1/swin_3.png" alt="Sample Grid" class="card-image">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="image-section">
-                <img src="images/assignment1/cm_st.png" alt="Sample Grid" class="card-image">
+            <div class="image-section1">
+                <img src="images/assignment1/image/vit-reliability.png" alt="Sample Grid" class="card-image">
             </div>
         </div>
 
@@ -305,12 +528,15 @@
         <div class="card">
             <ul style="margin-left: 20px; color: var(--text-muted); margin-top: 10px;">
                 <li>Transformer-based models achieve better performance on the dataset, while CNNs struggle more with complex and diverse visual patterns.</li>
+                <li>MobileNet serves as a lightweight model, offering faster training and inference times with lower computational cost.</li>
+                <li>Full fine-tuning leads to better results than freezing the backbone.</li>
+                <li>ViT model exhibits a tendency toward underconfidence, while MobileNet and ResNet demonstrate a clear inclination for overconfidence in their probability estimates.</li>
                 <li>The dataset contains several visually similar classes (e.g., <code>tennis–badminton</code>, <code>boxing–wwe</code>, <code>formula1–motogp</code>), making them harder to distinguish.</li>
             </ul>
         </div>
     </section>
-
-    <section class="project-section">
+"
+    <section id="text" class="project-section">
        <div class="project-header_2">
             <h2 class="title">
                 Patent Classification
@@ -335,29 +561,39 @@
         <div class="card">
             <p><strong>Patent classification</strong> is a text dataset used for a multi-class classification task. Each sample includes: a patent description and a corresponding label.</p>
             <ul style="margin-left: 20px; color: var(--text-muted); margin-top: 10px;">
-                <li>35,000 samples</li>
+                <li>Train: 25,000 samples, Val: 5,000 samples, Test: 5,000 samples</li>
                 <li>9 category labels (<code>Physics</code>, <code>Electricity</code>, <code>Human Neccessities</code>, ...)</li>
             </ul>
         </div>
 
         <h3>Label Distribution</h3>
-        <img src="images/assignment1/label_2.png" alt="Sample Grid" class="card-image">
+        <div class="container">
+            <div class="image-section1">
+                <img src="images/assignment1/text/train.png" alt="Sample Grid" class="card-image">
+            </div>
+            <div class="image-section1">
+                <img src="images/assignment1/text/val.png" alt="Sample Grid" class="card-image">
+            </div>
+            <div class="image-section1">
+                <img src="images/assignment1/text/test.png" alt="Sample Grid" class="card-image">
+            </div>
+        </div>
 
         <h3>Text Analysis</h3>
         <div class="container">
-            <div class="image-section">
-                <img src="images/assignment1/text_length.jpg" alt="Sample Grid" class="card-image">
+            <div class="image-section1">
+                <img src="images/assignment1/text/text_length.jpg" alt="Sample Grid" class="card-image">
             </div>
-            <div class="image-section">
-                <img src="images/assignment1/word_per_doc.jpg" alt="Sample Grid" class="card-image">
+            <div class="image-section1">
+                <img src="images/assignment1/text/word_per_doc.jpg" alt="Sample Grid" class="card-image">
             </div>
         </div>
         <div class="container">
-            <div class="image-section">
-                <img src="images/assignment1/top_unigram.jpg" alt="Sample Grid" class="card-image">
+            <div class="image-section1">
+                <img src="images/assignment1/text/top_unigram.jpg" alt="Sample Grid" class="card-image">
             </div>
-            <div class="image-section">
-                <img src="images/assignment1/wordcloud.jpg" alt="Sample Grid" class="card-image">
+            <div class="image-section1">
+                <img src="images/assignment1/text/wordcloud.jpg" alt="Sample Grid" class="card-image">
             </div>
         </div>
 
@@ -366,32 +602,48 @@
         </h2>
 
         <div class="card">
-            <h3>Data Preprocessing</h3>
-            <p>Data augmentation</p>
-            <p>Split data into Train/Validation/Test (70/15/15)</p>
-            <p><strong>RNN Pipeline:</strong></p>
-            <ul style="margin-left: 20px; color: var(--text-muted); margin-top: 10px;">
-                <li>Lowercasing, remove URLs/emails</li>
-                <li>Remove special characters</li>
-                <li>Word-level tokenization</li>
-                <li>Remove stopwords, apply lemmatization</li>
-                <li>Encode text + padding</li>
-            </ul>
-            <p><strong>Transformer Pipeline:</strong></p>
-            <ul style="margin-left: 20px; color: var(--text-muted); margin-top: 10px;">
-                <li>Normalize text, remove URLs/emails</li>
-                <li>Tokenization: Use pretrained tokenizer</li>
-                <li>Encoding: input_ids, attention_mask</li>
-            </ul>
-            <h3>Modeling</h3>
-            <p>RNN Models: LSTM / GRU, BiLSTM / BiGRU, BiLSTM + Attention</p>
-            <p>Transformer Models: BERT, RoBERTa (freeze backbone, full fine-tuning, layer-wise learning rate)</p>
-            <h3>Training</h3>
-            <p>Loss: CrossEntropy with class weights</p>
-            <p>Optimizer: AdamW</p>
-            <p>Techniques: Early stopping, Gradient clipping (RNN)</p>
-            <h3>Evaluation</h3>
-            <p>Metric: Weighted F1-Score</p>
+            <h3>1. Data Preprocessing & Augmentation</h3>
+            <p><strong>Back-translation:</strong> Apply back-translation (translate to a different language and then back to the original language).</p>
+            <p><strong>No Augment:</strong> No data augmentation applied.</p>
+            <p><strong>Weighted Random Sampler:</strong> Handle class imbalance by assigning higher weights to underrepresented classes</p>
+        </div>
+        <div class="card">
+            <h3>2. Model</h3>
+            <p><strong>RNN Models:</strong> BiLSTM and BiGRU</p>
+            <div class="container">
+                <div class="image-section1">
+                    <img src="images/assignment1/text/bilstm.png" alt="Sample Grid" class="card-image2">
+                </div>
+                <div class="image-section1">
+                    <img src="images/assignment1/text/bigru.png" alt="Sample Grid" class="card-image">
+                </div>
+            </div>
+            <p><strong>Transformer Models:</strong> RoBERTa and DistilBERT</p>
+            <div class="container">
+                <div class="image-section1">
+                    <img src="images/assignment1/text/distilbert.png" alt="Sample Grid" class="card-image2">
+                </div>
+                <div class="image-section1">
+                    <img src="images/assignment1/text/roberta.png" alt="Sample Grid" class="card-image">
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <h3>3. Fine-Tuning Strategies</h3>
+            <p><strong>Freeze Backbone:</strong> Freeze backbone layers, train only classifier.</p>
+            <p><strong>Full Fine-Tuning:</strong> Update all layers (backbone + classifier).</p>
+        </div>
+        <div class="card">
+            <h3>4. Training Setup</h3>
+            <p><strong>Loss Function:</strong> CrossEntropyLoss</p>
+            <p><strong>Optimizer:</strong> Adam</p>
+            <p><strong>Learning Rate Scheduler: </strong> CosineAnnealingLR</p>
+            <p><strong>Regularization:</strong> L2 Regularization</p>
+        </div>
+        <div class="card">
+            <h3>5. Evaluation</h3>
+            <p><strong>Metric:</strong> Weighted F1-Score (for class imbalance)</p>
+            <p><strong>Confusion Matrix:</strong> Analyze model performance per class</p>
         </div>
 
         <h2 class="section-title">
@@ -401,121 +653,524 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th><strong>Rank</strong></th>
                     <th><strong>Model</strong></th>
-                    <th><strong>Approach</strong></th>
-                    <th><strong>F1-Score</strong></th>
-                    <th><strong>Training time</strong></th>
+                    <th><strong>Augment</strong></th>
+                    <th><strong>Train</strong></th>
+                    <th><strong>#params(M)</strong></th>
+                    <th><strong>FLOPS(G)</strong></th>
+                    <th><strong>Acc(%)</strong><span class="up-arrow">&#9650;</span></th>
+                    <th><strong>Prec(%)</strong><span class="up-arrow">&#9650;</span></th>
+                    <th><strong>Rec(%)</strong><span class="up-arrow">&#9650;</span></th>
+                    <th><strong>F1(%)</strong><span class="up-arrow">&#9650;</span></th>
+                    <th><strong>Inference time(s)</strong><span class="down-arrow">&#9660;</span></th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>1</td>
-                    <td>BERT + MLP</td>
+                    <td>RoBERTa</td>
+                    <td>Back-translation</td>
                     <td>Full fine-tuning</td>
-                    <th>0.6320</th>
-                    <th>1370</th>
+                    <td>125.83</td>
+                    <th>29.62</th>
+                    <th class="highest">69.04</th>
+                    <th class="highest">64.02</th>
+                    <th class="highest">69.15</th>
+                    <th class="highest">66.28</th>
+                    <th>2261.27</th>
                 </tr>
                 <tr>
-                    <td>2</td>
-                    <td>RoBERTa + MLP</td>
-                    <td>Layerwise lr</td>
-                    <th>0.6269</th>
-                    <th>1411</th>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>BERT + BiLSTM</td>
+                    <td>RoBERTa</td>
+                    <td>None</td>
                     <td>Full fine-tuning</td>
-                    <td>0.8857</td>
-                    <th>1520</th>
+                    <td>125.83</td>
+                    <th>29.62</th>
+                    <th>66.56</th>
+                    <th>60.67</th>
+                    <th>66.55</th>
+                    <th>63.48</th>
+                    <th>2261.26</th>
                 </tr>
                 <tr>
-                    <td>4</td>
-                    <td>DistilBERT + MLP</td>
+                    <td>DistilBERT</td>
+                    <td>None</td>
                     <td>Full fine-tuning</td>
-                    <td>0.6115</td>
-                    <th>732</th>
+                    <td>66.96</td>
+                    <th>14.88</th>
+                    <th>63.02</th>
+                    <th>62.08</th>
+                    <th>63.41</th>
+                    <th>63.21</th>
+                    <th>2782.94</th>
                 </tr>
                 <tr>
-                    <td>5</td>
-                    <td>DistilBERT + BiGRU</td>
+                    <td>RoBERTa</td>
+                    <td>Back-translation</td>
+                    <td>Freeze backbone</td>
+                    <td>125.83</td>
+                    <th>29.62</th>
+                    <th>68.06</th>
+                    <th>59.86</th>
+                    <th>66.23</th>
+                    <th>62.44</th>
+                    <th>2261.26</th>
+                </tr>
+                <tr>
+                    <td>RoBERTa</td>
+                    <td>None</td>
+                    <td>Freeze backbone</td>
+                    <td>125.83</td>
+                    <th>29.62</th>
+                    <th>64.07</th>
+                    <th>57.43</th>
+                    <th>63.70</th>
+                    <th>60.30</th>
+                    <th>2261.27</th>
+                </tr>
+                <tr>
+                    <td>DistilBERT</td>
+                    <td>Back-translation</td>
+                    <td>Freeze backbone</td>
+                    <td>66.96</td>
+                    <th>14.88</th>
+                    <th>59.23</th>
+                    <th>60.00</th>
+                    <th>60.67</th>
+                    <th>59.88</th>
+                    <th>2782.94</th>
+                </tr>
+                <tr>
+                    <td>DistilBERT</td>
+                    <td>None</td>
                     <td>Full fine-tuning</td>
-                    <td>0.5965</td>
-                    <th>855</th>
+                    <td>66.96</td>
+                    <th>14.88</th>
+                    <th>60.49</th>
+                    <th>59.18</th>
+                    <th>60.56</th>
+                    <th>59.64</th>
+                    <th>2783.91</th>
                 </tr>
                 <tr>
-                    <td>6</td>
-                    <td>BERT + MLP</td>
-                    <td>Partial fine-tuning</td>
-                    <td>0.5793</td>
-                    <th>722</th>
+                    <td>BiGRU</td>
+                    <td>Back-translation</td>
+                    <td></td>
+                    <td>5.14</td>
+                    <th>5.92</th>
+                    <th>59.84</th>
+                    <th>57.24</th>
+                    <th>61.79</th>
+                    <th>58.78</th>
+                    <th>291.64</th>
                 </tr>
                 <tr>
-                    <td>7</td>
-                    <td>DistilBERT + MLP</td>
-                    <td>Frozen</td>
-                    <td>0.4871</td>
-                    <th>340</th>
+                    <td>BiLSTM</td>
+                    <td>Back-translation</td>
+                    <td></td>
+                    <td>5.50</td>
+                    <th>7.24</th>
+                    <th>60.23</th>
+                    <th>55.66</th>
+                    <th>61.79</th>
+                    <th>58.87</th>
+                    <th>366.28</th>
                 </tr>
                 <tr>
-                    <td>8</td>
-                    <td>GRU</td>
-                    <td>RNN</td>
-                    <td>0.4560</td>
-                    <th>71</th>
+                    <td>DistilBERT</td>
+                    <td>None</td>
+                    <td>Freeze backbone</td>
+                    <td>66.96</td>
+                    <th>14.88</th>
+                    <th>56.63</th>
+                    <th>56.84</th>
+                    <th>57.60</th>
+                    <th>55.94</th>
+                    <th>2783.92</th>
                 </tr>
                 <tr>
-                    <td>9</td>
-                    <td>fastText + BiGRU</td>
-                    <td>RNN</td>
-                    <td>0.4560</td>
-                    <th>101</th>
+                    <td>BiGRU</td>
+                    <td>None</td>
+                    <td></td>
+                    <td>5.14</td>
+                    <th>5.92</th>
+                    <th>57.05</th>
+                    <th>54.71</th>
+                    <th>57.05</th>
+                    <th>55.27</th>
+                    <th class="highest">290.62</th>
                 </tr>
                 <tr>
-                    <td>10</td>
-                    <td>fastText + BiLSTM</td>
-                    <td>RNN</td>
-                    <td>0.4301</td>
-                    <th>111</th>
-                </tr>
-                <tr>
-                    <td>11</td>
-                    <td>LSTM</td>
-                    <td>RNN</td>
-                    <td>0.4215</td>
-                    <th>81</th>
+                    <td>BiLSTM</td>
+                    <td>None</td>
+                    <td></td>
+                    <td>5.50</td>
+                    <th>7.24</th>
+                    <th>56.07</th>
+                    <th>52.05</th>
+                    <th>56.07</th>
+                    <th>53.59</th>
+                    <th>366.28</th>
                 </tr>
             </tbody>
         </table>
+
+        <div class="container">
+            <div class="image-section1">
+                <figure>
+                    <img src="images/assignment1/text/cm_bilstm.jpg" alt="Sample Grid" class="image">
+                    <figcaption>BiLSTM_Aug_Fine-Tuning</figcaption>
+                </figure>
+            </div>
+            <div class="image-section1">
+                <figure>
+                    <img src="images/assignment1/text/cm_bigru.jpg" alt="Sample Grid" class="image">
+                    <figcaption>BiGRU_Aug_Fine-Tuning</figcaption>
+                </figure>
+            </div>
+            <div class="image-section1">
+                <figure>
+                    <img src="images/assignment1/text/cm_distilbert.jpg" alt="Sample Grid" class="image">
+                    <figcaption>DistilBERT_Aug_Fine-Tuning</figcaption>
+                </figure>
+            </div>
+            <div class="image-section1">
+                <figure>
+                    <img src="images/assignment1/text/cm_roberta.jpg" alt="Sample Grid" class="image">
+                    <figcaption>RoBERTa_Aug_Fine-Tuning</figcaption>
+                </figure>
+            </div>
+        </div>
 
         <h2 class="section-title">
             4. Analysis
         </h2>
 
+        <div class="card">
+            <p><strong>Test:</strong></p>
+            <p>bit stream 112 is finally constructed for example through a multiplexer and comprises the lower layer s including coding parameters 113 from the speech specific codec 103 and the upper layer s including the transform coefficients 110 as masked and quantized by the transform modifier and quantizer....</p>
+            <p><strong>Test:</strong> Electricity</p>
+        </div>
+
         <div class="container">
-            <div class="image-section">
-                <img src="images/assignment1/attn_1.jpg" alt="Sample Grid" class="card-image">
+            <div class="image-section1">
+                <img src="images/assignment1/text/roberta-ana.jpg" alt="Sample Grid" class="card-image">
             </div>
-            <div class="image-section">
-                <img src="images/assignment1/attn_2.jpg" alt="Sample Grid" class="card-image">
+            <div class="image-section1">
+                <img src="images/assignment1/text/distilbert-ana.jpg" alt="Sample Grid" class="card-image">
+            </div>
+        </div>
+        <div class="container">
+            <div class="image-section1">
+                <img src="images/assignment1/text/bilstm-ana.jpg" alt="Sample Grid" class="card-image">
+            </div>
+            <div class="image-section1">
+                <img src="images/assignment1/text/bigru-ana.jpg" alt="Sample Grid" class="card-image">
+            </div>
+        </div>
+    </section>
+
+    <section id="multimodal" class="project-section">
+       <div class="project-header_3">
+            <h2 class="title">
+                Multimodal Classification
+            </h2>
+            <div class="github-buttons">
+                <a href="https://colab.research.google.com/drive/1LGEKMeqyzdfrnSuJcFeAKsO4xHTnM9hT?usp=sharing" class="btn-github">
+                    <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/google-colab.png" alt="Colab" class="github-icon">
+                    Colab
+                </a>
+                <a href="https://crisisnlp.qcri.org/crisismmd.html" class="btn-github">
+                    <img src="https://cdn-icons-png.flaticon.com/512/716/716784.png" alt="dataset" class="github-icon">
+                    Dataset
+                </a>
+            </div>
+        </div>
+        
+        <h2 class="title">
+            Zero-shot Learning
+        </h2>
+        <div class="card">
+            <p>Zero-shot learning is a machine learning paradigm in which a model is required to recognize or classify data from classes that were not seen during training. Instead of relying on labeled examples for every class, the model leverages semantic knowledge, such as natural language descriptions, text embeddings, or attribute-based representations, to infer relationships between input data and unseen classes.</p>
+        </div>
+        <h2 class="section-title">
+            1. Exploratory Data Analysis
+        </h2>
+        
+        <h3>Dataset Overview</h3>
+        <div class="card">
+            <p><strong>Imagenette Dataset:</strong> lightweight image classification dataset derived from ImageNet, introduced by fast.ai for rapid experimentation. It contains <strong>10 classes</strong>, including​: <code>Tench</code>​, <code>English springer​</code>, <code>Cassette player​</code>, <code>Chain saw</code>​, <code>Church</code>​, <code>French horn</code>​, <code>Garbage truck</code>​, <code>Gas pump</code>, ​<code>Golf ball</code>,​ <code>Parachute</code>​.</p>
+            <ul style="margin-left: 20px; color: var(--text-muted); margin-top: 10px;">
+                <li>Train: 9,469 samples</li>
+                <li>Validation: 3,925 samples</li>
+            </ul>
+        </div>
+
+        <h3>Class Distribution in Val Set</h3>
+        <img src="images/assignment1/multimodal/class_dist.png" alt="Sample Grid" class="card-image">
+
+        <h3>Image Size</h3>
+        <div class="container">
+            <div class="image-section1">
+                <img src="images/assignment1/multimodal/width_height_dis.png" alt="Sample Grid" class="card-image">
+            </div>
+            <div class="image-section1">
+                <img src="images/assignment1/multimodal/ratio.png" alt="Sample Grid" class="card-image">
             </div>
         </div>
 
-        <div class="card">
-            <p>The two figures show the difference in how Transformer and RNN identify important words when predicting the Physics label. In the Transformer model, several keywords such as sensitive, compounds, radiation, and halo have very high saliency values, indicating that the model focuses strongly on a few core scientific terms to make its prediction. In contrast, the RNN model distributes attention more evenly across multiple words such as copying, imaging, halomethyl, systems, and molecule. This suggests that the RNN relies on a broader contextual range within the text, while the Transformer tends to depend more on prominent keywords for classification. Overall, both models capture terminology related to physics and chemistry, but they differ in how they allocate importance to the words.</p>
+        <h3>Sample Visualization</h3>
+        <div class="container">
+            <div class="image-section1">
+                <img src="images/assignment1/multimodal/tench.png" alt="Sample Grid" class="card-image">
+            </div>
+            <div class="image-section1">
+                <img src="images/assignment1/multimodal/English_springer.png" alt="Sample Grid" class="card-image">
+            </div>
+        </div>
+        <div class="container">
+            <div class="image-section1">
+                <img src="images/assignment1/multimodal/Cassette_player.png" alt="Sample Grid" class="card-image">
+            </div>
+            <div class="image-section1">
+                <img src="images/assignment1/multimodal/chainsaw.png" alt="Sample Grid" class="card-image">
+            </div>
+        </div>
+        <div class="container">
+            <div class="image-section1">
+                <img src="images/assignment1/multimodal/church.png" alt="Sample Grid" class="card-image">
+            </div>
+            <div class="image-section1">
+                <img src="images/assignment1/multimodal/French_horn.png" alt="Sample Grid" class="card-image">
+            </div>
+        </div>
+        <div class="container">
+            <div class="image-section1">
+                <img src="images/assignment1/multimodal/garbage_truck.png" alt="Sample Grid" class="card-image">
+            </div>
+            <div class="image-section1">
+                <img src="images/assignment1/multimodal/gaspump.png" alt="Sample Grid" class="card-image">
+            </div>
+        </div>
+        <div class="container">
+            <div class="image-section1">
+                <img src="images/assignment1/multimodal/golf_ball.png" alt="Sample Grid" class="card-image">
+            </div>
+            <div class="image-section1">
+                <img src="images/assignment1/multimodal/parachute.png" alt="Sample Grid" class="card-image">
+            </div>
         </div>
 
         <h2 class="section-title">
-            5. Conclusion
+            2. Results
         </h2>
 
+        <table class="table">
+            <thead>
+                <tr>
+                    <th><strong>Model</strong></th>
+                    <th><strong>Params</strong></th>
+                    <th><strong>Top-1 Acc</strong><span class="up-arrow">&#9650;</span></th>
+                    <th><strong>Top-5 Acc</strong><span class="up-arrow">&#9650;</span></th>
+                    <th><strong>Total time (s)</strong><span class="down-arrow">&#9660;</span></th>
+                    <th><strong>Avg Time/Img (ms)</strong><span class="down-arrow">&#9660;</span></th>
+                    <th><strong>Throughput (img/s)</strong><span class="up-arrow">&#9650;</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>CLIP</td>
+                    <td>151M</td>
+                    <th>0.9896</th>
+                    <th>0.9990</th>
+                    <th class="highest">23.85</th>
+                    <th class="highest">6.08</th>
+                    <th class="highest">164.54</th>
+                </tr>
+                <tr>
+                    <td>SigLIP</td>
+                    <td>428M</th>
+                    <th>0.9944</th>
+                    <th>0.9997</th>
+                    <th>131.41</th>
+                    <th>33.48</th>
+                    <th>29.87</th>
+                </tr>
+                <tr>
+                    <td>OpenCLIP</td>
+                    <td>151M</td>
+                    <th>0.9911</th>
+                    <th>0.9997</th>
+                    <th>31.63</th>
+                    <th>8.06</th>
+                    <th>124.11</th>
+                </tr>
+                <tr>
+                    <td>ALIGN</td>
+                    <td>1.8B</td>
+                    <th class="highest">0.9975</th>
+                    <th class="highest">1.0000</th>
+                    <th>103.63</th>
+                    <th>26.40</th>
+                    <th>37.88</th>
+                </tr>
+            </tbody>
+        </table>
         <div class="card">
             <ul style="margin-left: 20px; color: var(--text-muted); margin-top: 10px;">
-                <li>Transformer-based models outperform traditional RNN-based approaches in capturing contextual information.</li>
-                <li>Full fine-tuning achieves better performance than partial fine-tuning or frozen settings.</li>
+                <li><strong>ALIGN</strong> achieves the highest accuracy, likely due to its significantly larger scale (~1.8B parameters).</li>
+                <li><strong>CLIP</strong> provides the best efficiency: Fastest inference, Highest throughput</li>
+                <li><strong>SigLIP</strong> improves accuracy over CLIP but is much slower.</li>
+                <li><strong>OpenCLIP</strong> offers a good trade-off between speed and performance.</li>
             </ul>
         </div>
-    </section>
+
+        <h2 class="title">
+            Few-shot Learning
+        </h2>
+        <div class="card">
+            <p>Few-shot learning focuses on adapting models to new tasks with only a small number of labeled examples per class. This setting is especially useful when annotated data is limited.</p>
+        </div>
+        <h2 class="section-title">
+            1. Exploratory Data Analysis
+        </h2>
+        
+        <h3>Dataset Overview</h3>
+        <div class="card">
+            <p><strong>CrisisMMD:</strong> each image-tweet pair is classified into one of <strong>8 categories</strong>: <code>Infrastructure and utility damage; Not humanitarian; Rescue, volunteering, or donation effort; Other relevant information; Affected individuals; Injured or dead people; Vehicle damage; Missing or found people</code></p>
+            <ul style="margin-left: 20px; color: var(--text-muted); margin-top: 10px;">
+                <li>Train: 13,608 samples</li>
+                <li>Validation: 2,237 samples</li>
+                <li>Test: 2,237 samples</li>
+            </ul>
+        </div>
+
+        <h3>Class Distribution</h3>
+        <div class="container">
+            <div class="image-section1">
+                <img src="images/assignment1/multimodal/train_dis.png" alt="Sample Grid" class="card-image">
+            </div>
+            <div class="image-section1">
+                <img src="images/assignment1/multimodal/val_dis.png" alt="Sample Grid" class="card-image">
+            </div>
+            <div class="image-section1">
+                <img src="images/assignment1/multimodal/test_dis.png" alt="Sample Grid" class="card-image">
+            </div>
+        </div>
+
+        <h3>Sample Visualization</h3>
+        <div class="image-section1">
+            <img src="images/assignment1/multimodal/infrastructure_and_utility_damage.png" alt="Sample Grid" class="card-image">
+        </div>
+        <div class="image-section1">
+            <img src="images/assignment1/multimodal/not_humanitarian.png" alt="Sample Grid" class="card-image">
+        </div>
+        <div class="image-section1">
+            <img src="images/assignment1/multimodal/rescue_volunteering_or_donation_effort.png" alt="Sample Grid" class="card-image">
+        </div>
+        <div class="image-section1">
+            <img src="images/assignment1/multimodal/other_relevant_infomation.png" alt="Sample Grid" class="card-image">
+        </div>
+        <div class="image-section1">
+            <img src="images/assignment1/multimodal/affected_individuals.png" alt="Sample Grid" class="card-image">
+        </div>
+        <div class="image-section1">
+            <img src="images/assignment1/multimodal/injured_or_dead_people.png" alt="Sample Grid" class="card-image">
+        </div>
+        <div class="image-section1">
+            <img src="images/assignment1/multimodal/vehicle_damage.png" alt="Sample Grid" class="card-image">
+        </div>
+        <div class="image-section1">
+            <img src="images/assignment1/multimodal/missing_or_found_people.png" alt="Sample Grid" class="card-image">
+        </div>
+
+        <h2 class="section-title">
+            2. Model
+        </h2>
+        <img src="images/assignment1/multimodal/model.png" alt="Sample Grid" class="card-image">
+
+        <div class="card">
+            <h3>Feature Extraction</h3>
+            <ul style="margin-left: 20px; color: var(--text-muted); margin-top: 10px;">
+                <li>Image encoder extracts visual features from input images</li>
+                <li>Text encoder encodes class prompts into semantic embeddings</li>
+            </ul>
+            <p>Both encoders are frozen to preserve pretrained knowledge and reduce overfitting.</p>
+        </div>
+
+        <div class="card">
+            <h3>Model Fusion</h3>
+            <p>Image and text features are fused by weighted averaging: <code>f = α · f_image + (1 - α) · f_text</code></p>
+            <ul style="margin-left: 20px; color: var(--text-muted); margin-top: 10px;">
+                <li><code>α = 0.5</code></li>
+                <li>Both features are L2-normalized before fusion</li>
+            </ul>
+            <p>Both encoders are frozen to preserve pretrained knowledge and reduce overfitting.</p>
+        </div>
+
+        <div class="card">
+            <h3>Projection Head</h3>
+            <p>The fused representation is passed through a lightweight MLP with hidden dimensions: <code>[256, 128]</code></p>
+            <p>Each layer consists of: <code>Linear, ReLU</code></p>
+        </div>
+
+        <div class="card">
+            <h3>Output Representation</h3>
+            <ul style="margin-left: 20px; color: var(--text-muted); margin-top: 10px;">
+                <li>Final embeddings are L2-normalized</li>
+                <li>Both features are L2-normalized before fusionUsed for classification through similarity or a downstream classifier</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>Design Choices</h3>
+            <ul style="margin-left: 20px; color: var(--text-muted); margin-top: 10px;">
+                <li><strong>Frozen CLIP</strong> to improve generalization in low-data settings</li>
+                <li><strong>Balanced fusion</strong> to combine visual and textual information equally</li>
+                <li><strong>Lightweight MLP</strong> to adapt pretrained features to the task</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>Prompt Engineering</h3>
+            <p>We use class-specific prompts to align text embeddings with humanitarian semantics:</p>
+            <div class="image-section2">
+                <img src="images/assignment1/multimodal/promt.png" alt="Sample Grid" class="card-image">
+            </div>
+        </div>
+
+        <h2 class="section-title">
+            3. Results
+        </h2>
+        <div class="image-section2">
+            <img src="images/assignment1/multimodal/acc-loss.png" alt="Sample Grid" class="card-image">
+        </div>
+        <div class="card">
+            <p>Epoch 3 has the highest accuracy on val set so we choice weights of epoch 3 is the best weights and use it to evaluate on test set</p>
+        </div>
+            <table class="table">
+            <thead>
+                <tr>
+                    <th><strong>Dataset</strong></th>
+                    <th><strong>Top-1 Acc</strong></th>
+                    <th><strong>Top-5 Acc</strong></th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Train</td>
+                    <td>70.10%</td>
+                    <th>98.73%</th>
+                </tr>
+                <tr>
+                    <td>Val</td>
+                    <td>62.49%</th>
+                    <th>97.99%</th>
+                </tr>
+                <tr>
+                    <td>Test</td>
+                    <td>61.51%</td>
+                    <th>97.27%</th>
+                </tr>
+            </tbody>
+        </table>
+    </section> 
 </body>
 </html>
